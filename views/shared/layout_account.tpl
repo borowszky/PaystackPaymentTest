@@ -102,7 +102,7 @@
 
         <div class="navbar-collapse collapse" id="navbar-footer">
             <span class="navbar-text">
-                &copy; 2019. <a href="#">{{i18n .Lang "FooterAPPName"}}</a> {{i18n .Lang "FooterBy"}} <a href="https://www.linkedin.com/tettehkangniboris" target="_blank">{{i18n .Lang "FooterCompanyName"}}</a>
+                &copy; 2019. <a href="https://github.com/borowszky/PaystackInterviewTest">{{i18n .Lang "FooterAPPName"}}</a> {{i18n .Lang "FooterBy"}} <a href="https://www.linkedin.com/in/tettehkangniboris" target="_blank">{{i18n .Lang "FooterCompanyName"}}</a>
             </span>
         </div>
     </div>
