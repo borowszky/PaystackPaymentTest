@@ -1,4 +1,4 @@
-module github.com/borowszky/PaystackInterviewTest
+module PaystackInterviewTest
 
 go 1.12.2
 
