@@ -1,12 +1,10 @@
 package controllers
 
-import (
-	"github.com/astaxie/beego"
-)
+import "PaystackInterviewTest/utilities"
 
 // ErrorControllerController operations for ErrorController
 type ErrorController struct {
-	beego.Controller
+	utilities.ExtendedBeegoController
 }
 
 func (c *ErrorController) URLMapping() {

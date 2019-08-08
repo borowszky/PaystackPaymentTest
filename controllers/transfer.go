@@ -4,14 +4,13 @@ import (
 	"PaystackInterviewTest/models"
 	"PaystackInterviewTest/utilities"
 	"encoding/json"
-	"io/ioutil"
 
 	"github.com/astaxie/beego"
 )
 
 // TransferController operations for Transfer
 type TransferController struct {
-	beego.Controller
+	utilities.ExtendedBeegoController
 }
 
 func (c *TransferController) URLMapping() {
@@ -176,13 +175,4 @@ func (c *TransferController) ProcessHttpRequest(requestBody interface{}, relativ
 		c.Ctx.Output.SetStatus(500)
 		c.Data["json"] = utilities.BaseHTTPResponseModel{Data: nil, Status: false, Message: err.Error()}
 	}
-}
-
-func (c *TransferController) ExtractRequestBody() []byte {
-	requestBodyBytes, err := ioutil.ReadAll(c.Ctx.Request.Body)
-	if err != nil {
-		c.Ctx.Output.SetStatus(500)
-		return make([]byte, 0)
-	}
-	return requestBodyBytes
 }

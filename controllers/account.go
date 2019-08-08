@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"PaystackInterviewTest/models"
+	"PaystackInterviewTest/utilities"
 
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
@@ -9,7 +10,7 @@ import (
 
 // AccountController operations for Account
 type AccountController struct {
-	beego.Controller
+	utilities.ExtendedBeegoController
 }
 
 func (c *AccountController) URLMapping() {

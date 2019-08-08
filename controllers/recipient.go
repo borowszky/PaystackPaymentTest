@@ -5,14 +5,13 @@ import (
 	"PaystackInterviewTest/utilities"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 
 	"github.com/astaxie/beego"
 )
 
 // RecipientController operations for Recipient
 type RecipientController struct {
-	beego.Controller
+	utilities.ExtendedBeegoController
 }
 
 func (c *RecipientController) URLMapping() {
@@ -124,13 +123,4 @@ func (c *RecipientController) ProcessHttpRequest(requestBody interface{}, recipi
 		c.Ctx.Output.SetStatus(500)
 		c.Data["json"] = utilities.BaseHTTPResponseModel{Data: nil, Status: false, Message: err.Error()}
 	}
-}
-
-func (c *RecipientController) ExtractRequestBody() []byte {
-	requestBodyBytes, err := ioutil.ReadAll(c.Ctx.Request.Body)
-	if err != nil {
-		c.Ctx.Output.SetStatus(500)
-		return make([]byte, 0)
-	}
-	return requestBodyBytes
 }
