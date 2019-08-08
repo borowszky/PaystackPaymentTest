@@ -8,6 +8,11 @@ import (
 	"github.com/beego/i18n"
 )
 
+type FullJwt struct {
+	Token   string
+	Expires string
+}
+
 // AccountController operations for Account
 type AccountController struct {
 	utilities.ExtendedBeegoController
@@ -46,7 +51,7 @@ func (c *AccountController) LoginPost() {
 
 	if username == "interviewAdmin" && password == "qwe123" {
 		//Save Authentication token in session
-		fullToken := beego.FullJwt{}
+		fullToken := FullJwt{}
 		fullToken.Token = "Token"
 		fullToken.Expires = "Expires"
 		c.SetSession(beego.AppConfig.String("SessionName"), fullToken)
