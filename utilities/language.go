@@ -11,6 +11,7 @@ import (
 
 type ExtendedBeegoController struct {
 	beego.Controller
+	Lang string
 }
 
 type langType struct {
