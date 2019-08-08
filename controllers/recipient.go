@@ -25,7 +25,6 @@ func (c *RecipientController) TransferRecipients() {
 		return
 	}
 	c.TplName = "recipient/recipient.tpl"
-	c.UpdateDaysAndMonthsToUserLocale()
 
 	viewData := make(map[string]interface{})
 

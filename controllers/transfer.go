@@ -37,7 +37,6 @@ func (c *TransferController) ListTransfers() {
 	}
 
 	c.TplName = "transfer/transfer.tpl"
-	c.UpdateDaysAndMonthsToUserLocale()
 
 	viewData := make(map[string]interface{})
 

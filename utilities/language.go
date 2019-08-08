@@ -3,7 +3,6 @@ package utilities
 import (
 	"fmt"
 	"io/ioutil"
-	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
@@ -90,62 +89,6 @@ func (c *ExtendedBeegoController) SetLanguange() bool {
 	c.Data["RestLangs"] = restLangs
 
 	return isNeedRedir
-}
-
-func (c *ExtendedBeegoController) UpdateDaysAndMonthsToUserLocale() {
-	time.LongDayNames = []string{
-		i18n.Tr(c.Lang, "LongDayNameSunday"),
-		i18n.Tr(c.Lang, "LongDayNameMonday"),
-		i18n.Tr(c.Lang, "LongDayNameTuesday"),
-		i18n.Tr(c.Lang, "LongDayNameWednesday"),
-		i18n.Tr(c.Lang, "LongDayNameThursday"),
-		i18n.Tr(c.Lang, "LongDayNameFriday"),
-		i18n.Tr(c.Lang, "LongDayNameSaturday"),
-	}
-	for index := 0; index < len(time.LongDayNames); index++ {
-		time.Days[index] = time.LongDayNames[index]
-	}
-
-	time.ShortDayNames = []string{
-		i18n.Tr(c.Lang, "ShortDayNameSunday"),
-		i18n.Tr(c.Lang, "ShortDayNameMonday"),
-		i18n.Tr(c.Lang, "ShortDayNameTuesday"),
-		i18n.Tr(c.Lang, "ShortDayNameWednesday"),
-		i18n.Tr(c.Lang, "ShortDayNameThursday"),
-		i18n.Tr(c.Lang, "ShortDayNameFriday"),
-		i18n.Tr(c.Lang, "ShortDayNameSaturday"),
-	}
-	time.LongMonthNames = []string{
-		i18n.Tr(c.Lang, "LongMonthNameJanuary"),
-		i18n.Tr(c.Lang, "LongMonthNameFebruary"),
-		i18n.Tr(c.Lang, "LongMonthNameMarch"),
-		i18n.Tr(c.Lang, "LongMonthNameApril"),
-		i18n.Tr(c.Lang, "LongMonthNameMay"),
-		i18n.Tr(c.Lang, "LongMonthNameJune"),
-		i18n.Tr(c.Lang, "LongMonthNameJuly"),
-		i18n.Tr(c.Lang, "LongMonthNameAugust"),
-		i18n.Tr(c.Lang, "LongMonthNameSeptember"),
-		i18n.Tr(c.Lang, "LongMonthNameOctober"),
-		i18n.Tr(c.Lang, "LongMonthNameNovember"),
-		i18n.Tr(c.Lang, "LongMonthNameDecember"),
-	}
-	for index := 0; index < len(time.LongMonthNames); index++ {
-		time.Months[index] = time.LongMonthNames[index]
-	}
-	time.ShortMonthNames = []string{
-		i18n.Tr(c.Lang, "ShortMonthNameJanuary"),
-		i18n.Tr(c.Lang, "ShortMonthNameFebruary"),
-		i18n.Tr(c.Lang, "ShortMonthNameMarch"),
-		i18n.Tr(c.Lang, "ShortMonthNameApril"),
-		i18n.Tr(c.Lang, "ShortMonthNameMay"),
-		i18n.Tr(c.Lang, "ShortMonthNameJune"),
-		i18n.Tr(c.Lang, "ShortMonthNameJuly"),
-		i18n.Tr(c.Lang, "ShortMonthNameAugust"),
-		i18n.Tr(c.Lang, "ShortMonthNameSeptember"),
-		i18n.Tr(c.Lang, "ShortMonthNameOctober"),
-		i18n.Tr(c.Lang, "ShortMonthNameNovember"),
-		i18n.Tr(c.Lang, "ShortMonthNameDecember"),
-	}
 }
 
 func (c *ExtendedBeegoController) ExtractRequestBody() []byte {
