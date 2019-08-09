@@ -224,7 +224,7 @@
             function fetchSourceList(){
                 $.ajax({
                     type: "GET",
-                    url: "http://127.0.0.1:8090/transfer/check_balance",
+                    url: baseUrl + "transfer/check_balance",
                     success: function(res) {
                     console.log(res);
                         TransferSourceAdd = $("#new_transfer_Source")
@@ -245,7 +245,7 @@
             function fecthBeneficiariesList(){
                 $.ajax({
                     type: "GET",
-                    url: "http://127.0.0.1:8090/recipients/list_recipients",
+                    url: baseUrl + "recipients/list_recipients",
                     success: function(res) {
                     console.log(res);
                     reciList = res
