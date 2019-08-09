@@ -29,6 +29,8 @@ func WriteTextToFile(filepath, filecontent string) {
 		}
 		defer file.Close()
 
+		file.Truncate(0)
+		file.Seek(0, 0)
 		_, err = file.WriteString(filecontent)
 		if err != nil {
 			fmt.Println(err)

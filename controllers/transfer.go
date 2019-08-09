@@ -134,13 +134,13 @@ func (c *TransferController) ResendOTPForTransfer() {
 }
 
 func (c *TransferController) EnableOTPRequirementForTransfer() {
-	var v interface{}
+	var v models.TransferCodeModel
 	c.ProcessHttpRequest(&v, "enable_otp", "POST")
 	c.ServeJSON()
 }
 
 func (c *TransferController) DisableOTPRequirementForTransfer() {
-	var v interface{}
+	var v models.TransferCodeModel
 	c.ProcessHttpRequest(&v, "disable_otp", "POST")
 	c.ServeJSON()
 }

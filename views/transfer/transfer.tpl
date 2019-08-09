@@ -31,49 +31,49 @@
                     </thead>
                     <tbody> 
                         {{range $key, $val := .Transfers.TransfersList}}
-                            {{if eq $val.Status "success"}}
-                                <tr class="alpha-success" onClick="showDetailPrompt({{$val.Transfer_code}})">
+                            {{if eq $val.status "success"}}
+                                <tr class="alpha-success" onClick="showDetailPrompt({{$val.transfer_code}})">
                                     <td></td>
-                                    <td>{{$val.Recipient.Name}}</td>
-                                    <td>{{$val.Transfer_code}}</td>
-                                    <td>({{$val.Currency}}) {{$val.Amount}}</td>
-                                    <td>{{$val.CreatedAt}}</td>
+                                    <td>{{$val.recipient.name}}</td>
+                                    <td>{{$val.transfer_code}}</td>
+                                    <td>({{$val.currency}}) {{$val.amount}}</td>
+                                    <td>{{$val.createdAt}}</td>
                                     <td class="text-center">                       
-                                        <button type="button" class="btn btn-primary" onClick="showEditPromt({{$val}})" > {{i18n $.Lang "ButtonEdit"}}</button>                                        
+                                        <button type="button" class="btn btn-primary" onClick="showEditPromt({{$val}})" > {{i18n $.Lang "ButtonDetails"}}</button>                                        
                                     </td>
                                 </tr>
                             {{end}}
-                            {{if eq $val.Status "otp"}}
-                                <tr class="alpha-primary" onClick="showDetailPrompt({{$val.Transfer_code}})">
+                            {{if eq $val.status "otp"}}
+                                <tr class="alpha-primary" onClick="showDetailPrompt({{$val.transfer_code}})">
                                     <td></td>
-                                    <td>{{$val.Recipient.Name}}</td>
-                                    <td>{{$val.Transfer_code}}</td>
-                                    <td>({{$val.Currency}}) {{$val.Amount}}</td>
-                                    <td>{{$val.CreatedAt}}</td>
+                                    <td>{{$val.recipient.name}}</td>
+                                    <td>{{$val.transfer_code}}</td>
+                                    <td>({{$val.currency}}) {{$val.amount}}</td>
+                                    <td>{{$val.createdAt}}</td>
                                     <td class="text-center">                       
-                                        <button type="button" class="btn btn-primary" onClick="showResendOTPPromt({{$val.Transfer_code}})" > {{i18n $.Lang "ButtonEdit"}}</button>                                        
+                                        <button type="button" class="btn btn-primary" onClick="showResendOTPPromt({{$val.transfer_code}})" > {{i18n $.Lang "ButtonResendOTP"}}</button>                                        
                                     </td>
                                 </tr>
                             {{end}}                                
-                            {{if eq $val.Status "pending"}}
-                                <tr class="alpha-purple" onClick="showDetailPrompt({{$val.Transfer_code}})">
+                            {{if eq $val.status "pending"}}
+                                <tr class="alpha-purple" onClick="showDetailPrompt({{$val.transfer_code}})">
                                     <td></td>
-                                    <td>{{$val.Recipient.Name}}</td>
-                                    <td>{{$val.Transfer_code}}</td>
-                                    <td>({{$val.Currency}}) {{$val.Amount}}</td>
-                                    <td>{{$val.CreatedAt}}</td>
+                                    <td>{{$val.recipient.name}}</td>
+                                    <td>{{$val.transfer_code}}</td>
+                                    <td>({{$val.currency}}) {{$val.amount}}</td>
+                                    <td>{{$val.createdAt}}</td>
                                     <td class="text-center">                       
-                                        <button type="button" class="btn btn-primary" onClick="showResendOTPPromt({{$val.Transfer_code}})" > {{i18n $.Lang "ButtonEdit"}}</button>                                        
+                                        <button type="button" class="btn btn-primary" onClick="showResendOTPPromt({{$val.transfer_code}})" > {{i18n $.Lang "ButtonDetails"}}</button>                                        
                                     </td>
                                 </tr>
                             {{end}}
-                            {{if eq $val.Status "failed"}}
-                                <tr class="alpha-warning" onClick="showDetailPrompt({{$val.Transfer_code}})">
+                            {{if eq $val.status "failed"}}
+                                <tr class="alpha-warning" onClick="showDetailPrompt({{$val.transfer_code}})">
                                     <td></td>
-                                    <td>{{$val.Recipient.Name}}</td>
-                                    <td>{{$val.Transfer_code}}</td>
-                                    <td>({{$val.Currency}}) {{$val.Amount}}</td>
-                                    <td>{{$val.CreatedAt}}</td>
+                                    <td>{{$val.recipient.name}}</td>
+                                    <td>{{$val.transfer_code}}</td>
+                                    <td>({{$val.currency}}) {{$val.amount}}</td>
+                                    <td>{{$val.createdAt}}</td>
                                     <td class="text-center">                       
                                         <button type="button" class="btn btn-primary" onClick="showDetailPrompt({{$val}})" > {{i18n $.Lang "ButtonDetails"}}</button>                                        
                                     </td>
@@ -289,6 +289,7 @@
                         reference:$("#new_transfer_reference").val()
                     };
                     console.log(data)
+                    $('#modal_newtransfer').modal('hide');
                     makeTransferHttpPost('transfer/initiate_transfer', data)
             };
 
@@ -318,6 +319,7 @@
                         reason:$("#resend_otp_Reason").val()
                     };
                     console.log(data)
+                    $('#modal_resendotp').modal('hide');
                     makeResendOTPHttpPost('transfer/resend_otp', data)
             };
 
@@ -389,7 +391,7 @@
                 buttonsStyling: false
                 }).then(function(result) {
                     if(result.value) {
-                        var data = {};
+                        var data = {transfer_code:""};
                         makeHttpPost('transfer/enable_otp', data, {{i18n $.Lang "LocaleSuccessTitle"}}, {{i18n $.Lang "LocaleEnableOTPRequirementSuccessMessage"}}, {{i18n $.Lang "LocaleErrorTitle"}}, 'errorMessage')
                     }
                 });
@@ -408,7 +410,7 @@
                 buttonsStyling: false
                 }).then(function(result) {
                     if(result.value) {
-                        var data = {};
+                        var data = {transfer_code:""};
                         makeDisableOTPHttpPost('transfer/disable_otp', data)
                     }
                 });
@@ -448,7 +450,7 @@
                 },
                 success: function(res) {
                     $(light_4).unblock();
-                    if(res.status == 200){
+                    if(res.Status == true){
                         showDisableOTPFinalizePrompt()
                     }
                 },
@@ -474,7 +476,7 @@
                 },
                 success: function(res) {
                     $(light_4).unblock();
-                    if(res.status == 200){
+                    if(res.Status == true){
                         showOTPPrompt(data.transfer_code)
                     }
                 },
@@ -489,7 +491,6 @@
                 });
             }
 
-
             function makeTransferHttpPost(url, data) {  
                 $.ajax({
                 type: "POST",
@@ -501,13 +502,13 @@
                 },
                 success: function(res) {
                     $(light_4).unblock();
-                    if(res.status == 200 && res.statusText == 'otp'){
-                        showOTPPrompt(res.Data.transfer_code)
-                    }else if(res.status == 200 && res.statusText == 'pending'){
+                    if(res.Status == true && res.Data.Data.status == 'otp'){
+                        showOTPPrompt(res.Data.Data.transfer_code)
+                    }else if(res.Status == true && res.Data.Data.status == 'pending'){
                         showPendingPrompt()
-                    }else if(res.status == 200 && res.statusText == 'success'){
+                    }else if(res.Status == true && res.Data.Data.status == 'success'){
                         showSuccessPrompt()
-                    }else if(res.status == 200 && res.statusText == 'failed'){
+                    }else if(res.Status == true && res.Data.Data.status == 'failed'){
                         showFailedPrompt()
                     }
                 },
