@@ -208,6 +208,7 @@
         <!-- Resend transfer OTP form modal -->
 
         <script>
+        var reciList;
             $(function () {
                 fetchSourceList();
                 fecthBeneficiariesList();
@@ -230,7 +231,7 @@
                         for (var i=0; i<res.Data.length; i++){
                             var opt = document.createElement('option')
                             opt.value = "balance"
-                            opt.innerHTML = "Balance - " + (res.Data[i].currency) + " " + res.Data[i].balance
+                            opt.innerHTML = "Balance - (" + res.Data[i].currency + ") " + res.Data[i].balance
                             TransferSourceAdd.append(opt)
                         }
                     },
@@ -247,12 +248,13 @@
                     url: "http://127.0.0.1:8090/recipients/list_recipients",
                     success: function(res) {
                     console.log(res);
+                    reciList = res
                         TransferBeneficiaryAdd = $("#new_transfer_beneficiary")
-                        for (var i=0; i<res.Data.length; i++){
-                            if(res.Data[i].active == true){
+                        for (var b=0; b<res.Data.length; b++){
+                            if(res.Data[b].active == true){
                                 var opt = document.createElement('option')
-                                opt.value = res.Data[i].Transfer_code
-                                opt.innerHTML = res.Data[i].name (res.Data[i].details.bank_name)
+                                opt.value = res.Data[b].recipient_code
+                                opt.innerHTML = res.Data[b].name + " (" + res.Data[b].details.bank_name + ")"
                                 TransferBeneficiaryAdd.append(opt)
                             }
                         }

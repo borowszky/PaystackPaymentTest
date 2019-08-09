@@ -29,7 +29,8 @@ func (c *RecipientController) TransferRecipients() {
 	viewData := make(map[string]interface{})
 
 	viewTransferRecipients, err := utilities.MakeHTTPGet("transferrecipient")
-	if err == nil {
+	if err != nil {
+		fmt.Println(err)
 		viewTransferRecipients.Data = make([]models.RecipientInfo, 0)
 	}
 

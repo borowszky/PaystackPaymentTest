@@ -10,7 +10,6 @@
                 <h4 class="card-title">{{i18n $.Lang "LayoutMenuTransferBeneficiaries"}}</h4>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_addrecipient" > {{i18n $.Lang "ButtonAddNewRecipient"}}</button>
             </div>
-
             <div class="card-body">                  
                 <table class="table datatable-responsive-row-control">
                     <thead>
@@ -25,25 +24,25 @@
                     </thead>
                     <tbody>                                
                         {{range $key, $val := .TransferRecipients.Recipients}}
-                            {{if eq $val.Active true}}
-                                <tr class="alpha-primary" onClick="showDetailsPrompt({{$val.Recipient_code}})">
+                            {{if eq $val.active true}}
+                                <tr class="alpha-primary" onClick="showDetailsPrompt({{$val.recipient_code}})">
                                     <td></td>
-                                    <td>{{$val.Name}}</td>
-                                    <td>{{$val.Recipient_code}}</td>
-                                    <td>{{$val.Details.Bank_name}}</td>
-                                    <td>{{$val.Details.Account_name}}</td>
+                                    <td>{{$val.name}}</td>
+                                    <td>{{$val.recipient_code}}</td>
+                                    <td>{{$val.details.bank_name}}</td>
+                                    <td>{{$val.details.account_number}}</td>
                                     <td class="text-center">                       
                                         <button type="button" class="btn btn-primary" onClick="showEditPromt({{$val}})" > {{i18n $.Lang "ButtonEdit"}}</button>                                        
                                     </td>
                                 </tr>
                             {{end}}
-                            {{if eq $val.Active false}}
-                                <tr class="alpha-danger" onClick="showDetailsPrompt({{$val.Recipient_code}})">
+                            {{if eq $val.active false}}
+                                <tr class="alpha-danger" onClick="showDetailsPrompt({{$val.recipient_code}})">
                                     <td></td>
-                                    <td>{{$val.Name}}</td>
-                                    <td>{{$val.Recipient_code}}</td>
-                                    <td>{{$val.Details.Bank_name}}</td>
-                                    <td>{{$val.Details.Account_name}}</td>
+                                    <td>{{$val.name}}</td>
+                                    <td>{{$val.recipient_code}}</td>
+                                    <td>{{$val.details.bank_name}}</td>
+                                    <td>{{$val.details.account_number}}</td>
                                     <td class="text-center">                       
                                         <button type="button" class="btn btn-primary" onClick="showDetailsPrompt({{$val}})" > {{i18n $.Lang "ButtonDetails"}}</button>                                        
                                     </td>
