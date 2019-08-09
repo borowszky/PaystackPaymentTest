@@ -19,7 +19,7 @@ type langType struct {
 	Name string
 }
 
-func Init() {
+func LoadLanguages() {
 	langs := strings.Split(beego.AppConfig.String("lang_types"), "|")
 	names := strings.Split(beego.AppConfig.String("lang_names"), "|")
 	langTypes := make([]*langType, 0, len(langs))
@@ -48,6 +48,7 @@ var langTypes = []*langType{}
 func (c *ExtendedBeegoController) SetLanguange() bool {
 	isNeedRedir := false
 	hasCookie := false
+	LoadLanguages()
 
 	// 1. Check URL arguments.
 	lang := c.Input().Get("lang")
