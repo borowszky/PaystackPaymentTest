@@ -3,6 +3,7 @@ package main
 import (
 	"PaystackInterviewTest/controllers"
 	_ "PaystackInterviewTest/routers"
+	"os"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
@@ -25,7 +26,7 @@ func main() {
 	beego.AddFuncMap("GetTotalCount", GetTotalCount)
 	beego.AddFuncMap("GetTestSecretKey", GetTestSecretKey)
 	beego.AddFuncMap("GetTestPublicKey", GetTestPublicKey)
-	beego.Run()
+	beego.Run(":" + os.Getenv("PORT"))
 }
 
 func GetTotalCount(rawData []interface{}) int {
