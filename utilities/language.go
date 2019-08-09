@@ -3,6 +3,7 @@ package utilities
 import (
 	"fmt"
 	"io/ioutil"
+	"strings"
 
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
@@ -16,6 +17,29 @@ type ExtendedBeegoController struct {
 type langType struct {
 	Lang string
 	Name string
+}
+
+func Init() {
+	langs := strings.Split(beego.AppConfig.String("lang_types"), "|")
+	names := strings.Split(beego.AppConfig.String("lang_names"), "|")
+	langTypes := make([]*langType, 0, len(langs))
+	for i, v := range langs {
+		langTypes = append(langTypes, &langType{
+			Lang: v,
+			Name: names[i],
+		})
+	}
+
+	for _, lang := range langs {
+		fmt.Println("Loading language: " + lang)
+		if i18n.IsExist(lang) == false {
+			if err := i18n.SetMessage(lang, "conf/"+"locale_"+lang+".ini"); err != nil {
+				fmt.Println("Fail to set message file: " + err.Error())
+				continue
+			}
+		}
+		fmt.Println("Language: " + lang + " alreay loaded")
+	}
 }
 
 var langTypes = []*langType{}
