@@ -5,7 +5,7 @@
 {{ end }}
 
 {{ define "content"}}
-        <div class="card">
+        <div class="card" id="main_card">
             <div class="card-header header-elements-inline">
                 <h4 class="card-title">{{i18n $.Lang "LayoutMenuTransferBeneficiaries"}}</h4>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_addrecipient" > {{i18n $.Lang "ButtonAddNewRecipient"}}</button>
@@ -233,6 +233,7 @@
         <!-- Edit Recipient form modal -->
 
         <script>
+            light_4 = $('#main_card');
             $(function () {
                 updateBankList();
                 $("#new_recipient_bankcode").change();
@@ -273,7 +274,6 @@
             }
 
             function performAddNewRecipient() {
-                light_4 = $("#modal_addrecipient");
                     $(light_4).block({
                         message: '<i class=icon-spinner4 spinner></i>',
                         overlayCSS: {
@@ -321,7 +321,6 @@
             };
             
             function performUpdateRecipient() {
-                light_4 = $('#modal_editrecipient');
                 $(light_4).block({
                     message: '<i class=icon-spinner4 spinner></i>',
                     overlayCSS: {
@@ -354,20 +353,19 @@
 
             function showDeletePromt(e) {
                 console.log(e)
-                light_4 = $(this).closest('.card');
-                        $(light_4).block({
-                            message: '<i class="icon-spinner4 spinner"></i>',
-                            overlayCSS: {
-                                backgroundColor: '#fff',
-                                opacity: 0.8,
-                                cursor: 'wait'
-                            },
-                            css: {
-                                border: 0,
-                                padding: 0,
-                                backgroundColor: 'none'
-                            }
-                        });
+                $(light_4).block({
+                    message: '<i class="icon-spinner4 spinner"></i>',
+                    overlayCSS: {
+                        backgroundColor: '#fff',
+                        opacity: 0.8,
+                        cursor: 'wait'
+                    },
+                    css: {
+                        border: 0,
+                        padding: 0,
+                        backgroundColor: 'none'
+                    }
+                });
 
                 // Initialize
                 swalInit({
