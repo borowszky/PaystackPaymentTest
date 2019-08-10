@@ -1,7 +1,7 @@
 {{ template "shared/layout_error.tpl" . }}
 
 {{ define "mainPageTitle" }}
-Page Not Founud
+{{i18n .Lang "PageNotFoundTitle"}}
 {{ end }}
 
 {{ define "errorType" }}
@@ -9,5 +9,5 @@ Page Not Founud
 {{ end }}
 
 {{ define "errorDescription" }}
-Oops, an error has occurred. Page not found!
+{{i18n .Lang "PageNotFoundDescription"}}
 {{ end }}

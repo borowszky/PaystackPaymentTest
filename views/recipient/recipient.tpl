@@ -176,7 +176,7 @@
 
                                     <div class="col-md-4">
                                         <label class="font-weight-semibold">{{i18n $.Lang "LocaleDescription"}}</label>
-                                        <input type="text" id="edit_recipient_desription" placeholder="{{i18n $.Lang "LocaleDescription"}}" class="form-control">
+                                        <input type="text" id="edit_recipient_description" placeholder="{{i18n $.Lang "LocaleDescription"}}" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -251,11 +251,18 @@
                     success: function(res) {
                     console.log(res);
                         bankSelectAdd = $("#new_recipient_bankcode")
+                        bankSelectEdit = $("#edit_recipient_bankcode")
                         for (var i=0; i<res.Data.length; i++){
                             var opt = document.createElement('option')
                             opt.value = res.Data[i].code
                             opt.innerHTML = res.Data[i].name
                             bankSelectAdd.append(opt)
+                        }
+                        for (var i=0; i<res.Data.length; i++){
+                            var opt = document.createElement('option')
+                            opt.value = res.Data[i].code
+                            opt.innerHTML = res.Data[i].name
+                            bankSelectEdit.append(opt)
                         }
                     },
                     error: function(res) {
@@ -296,20 +303,20 @@
             
             function showEditPromt(e) {
                 var Name = document.getElementById("edit_recipient_name");
-                Name.value = e.Name;
+                Name.value = e.name;
                 var Description = document.getElementById("edit_recipient_description");
-                Description.value = e.Description;
+                Description.value = e.description;
                 var AccountNumber = document.getElementById("edit_recipient_accountnumber");
-                AccountNumber.value = e.Details.Account_number;
+                AccountNumber.value = e.details.account_number;
                 var Domain = document.getElementById("edit_recipient_domain");
-                Domain.value = e.Domain;
+                Domain.value = e.domain;
                 var Metadata = document.getElementById("edit_recipient_metadata");
-                Metadata.value = e.Metadata;
-                $("#edit_recipient_type").val(e.Type.toString()).change()
-                $("#edit_recipient_currency").val(e.Currency.toString()).change()
-                $("#edit_recipient_bankcode").val(e.Details.Bank_code.toString()).change()
+                Metadata.value = e.metadata;
+                $("#edit_recipient_type").val(e.type.toString()).change()
+                $("#edit_recipient_currency").val(e.currency.toString()).change()
+                $("#edit_recipient_bankcode").val(e.details.bank_code.toString()).change()
                 var Code = document.getElementById("edit_recipient_code");
-                Code.value = e.Code;
+                Code.value = e.recipient_code;
                 $('#modal_editrecipient').modal('show');
             };
             

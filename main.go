@@ -4,6 +4,7 @@ import (
 	"PaystackInterviewTest/controllers"
 	_ "PaystackInterviewTest/routers"
 	"os"
+	"time"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/plugins/cors"
@@ -23,7 +24,7 @@ func init() {
 
 func main() {
 	beego.AddFuncMap("i18n", i18n.Tr)
-	beego.AddFuncMap("GetTotalCount", GetTotalCount)
+	beego.AddFuncMap("ExtractReadableDateTime", ExtractReadableDateTime)
 	beego.AddFuncMap("GetTestSecretKey", GetTestSecretKey)
 	beego.AddFuncMap("GetTestPublicKey", GetTestPublicKey)
 	beego.Run(":" + os.Getenv("PORT"))
@@ -31,6 +32,11 @@ func main() {
 
 func GetTotalCount(rawData []interface{}) int {
 	return len(rawData)
+}
+
+func ExtractReadableDateTime(rawDate string) string {
+	t, _ := time.Parse(time.RFC3339, rawDate)
+	return t.Format(time.RFC850)
 }
 
 func GetTestSecretKey(value bool) string {

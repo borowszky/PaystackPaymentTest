@@ -30,6 +30,7 @@
 	<script src="/static/js/plugins/forms/selects/select2.min.js"></script>
 	<script src="/static/js/plugins/forms/styling/uniform.min.js"></script>
 	<script src="/static/js/plugins/notifications/sweet_alert.min.js"></script>
+	<script src="/static/js/plugins/loaders/progressbar.min.js"></script>
 
 	<script src="/static/js/app.js"></script>
 	<script src="/static/js/main/datatables_responsive.js"></script>

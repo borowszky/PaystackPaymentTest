@@ -32,50 +32,50 @@
                     <tbody> 
                         {{range $key, $val := .Transfers.TransfersList}}
                             {{if eq $val.status "success"}}
-                                <tr class="alpha-success" onClick="showDetailPrompt({{$val.transfer_code}})">
+                                <tr class="alpha-success">
                                     <td></td>
                                     <td>{{$val.recipient.name}}</td>
                                     <td>{{$val.transfer_code}}</td>
                                     <td>({{$val.currency}}) {{$val.amount}}</td>
-                                    <td>{{$val.createdAt}}</td>
+                                    <td>{{ExtractReadableDateTime $val.createdAt}}</td>
                                     <td class="text-center">                       
-                                        <button type="button" class="btn btn-primary" onClick="showEditPromt({{$val}})" > {{i18n $.Lang "ButtonDetails"}}</button>                                        
+                                        <button type="button" class="btn btn-primary" onClick="FetchTransferDetail({{$val.transfer_code}})" > {{i18n $.Lang "ButtonDetails"}}</button>                                        
                                     </td>
                                 </tr>
                             {{end}}
                             {{if eq $val.status "otp"}}
-                                <tr class="alpha-primary" onClick="showDetailPrompt({{$val.transfer_code}})">
+                                <tr class="alpha-primary">
                                     <td></td>
                                     <td>{{$val.recipient.name}}</td>
                                     <td>{{$val.transfer_code}}</td>
                                     <td>({{$val.currency}}) {{$val.amount}}</td>
-                                    <td>{{$val.createdAt}}</td>
+                                    <td>{{ExtractReadableDateTime $val.createdAt}}</td>
                                     <td class="text-center">                       
                                         <button type="button" class="btn btn-primary" onClick="showResendOTPPromt({{$val.transfer_code}})" > {{i18n $.Lang "ButtonResendOTP"}}</button>                                        
                                     </td>
                                 </tr>
                             {{end}}                                
                             {{if eq $val.status "pending"}}
-                                <tr class="alpha-purple" onClick="showDetailPrompt({{$val.transfer_code}})">
+                                <tr class="alpha-purple">
                                     <td></td>
                                     <td>{{$val.recipient.name}}</td>
                                     <td>{{$val.transfer_code}}</td>
                                     <td>({{$val.currency}}) {{$val.amount}}</td>
-                                    <td>{{$val.createdAt}}</td>
+                                    <td>{{ExtractReadableDateTime $val.createdAt}}</td>
                                     <td class="text-center">                       
-                                        <button type="button" class="btn btn-primary" onClick="showResendOTPPromt({{$val.transfer_code}})" > {{i18n $.Lang "ButtonDetails"}}</button>                                        
+                                        <button type="button" class="btn btn-primary" onClick="FetchTransferDetail({{$val.transfer_code}})" > {{i18n $.Lang "ButtonDetails"}}</button>                                        
                                     </td>
                                 </tr>
                             {{end}}
                             {{if eq $val.status "failed"}}
-                                <tr class="alpha-warning" onClick="showDetailPrompt({{$val.transfer_code}})">
+                                <tr class="alpha-warning">
                                     <td></td>
                                     <td>{{$val.recipient.name}}</td>
                                     <td>{{$val.transfer_code}}</td>
                                     <td>({{$val.currency}}) {{$val.amount}}</td>
-                                    <td>{{$val.createdAt}}</td>
+                                    <td>{{ExtractReadableDateTime $val.createdAt}}</td>
                                     <td class="text-center">                       
-                                        <button type="button" class="btn btn-primary" onClick="showDetailPrompt({{$val}})" > {{i18n $.Lang "ButtonDetails"}}</button>                                        
+                                        <button type="button" class="btn btn-primary" onClick="FetchTransferDetail({{$val}})" > {{i18n $.Lang "ButtonDetails"}}</button>                                        
                                     </td>
                                 </tr>
                             {{end}}
@@ -194,6 +194,7 @@
 
                         <div class="card-footer bg-white d-sm-flex justify-content-sm-between align-items-sm-center">
                             <div class="btn-group">
+                                <button type="button" class="btn btn-success" onClick="showOTPPrompt($('#resend_otp_transfer_code').val())" > {{i18n $.Lang "ButtonAlreadyHaveOTP"}}</button>                                        
                             </div>
                             <div class="mt-2 mt-sm-0">
                                 <button type="submit" id="submit_add_transfer" onClick="performResendOTP()" class="btn bg-indigo-400"><i class="icon-checkmark3 mr-4"></i> {{i18n $.Lang "ButtonSend"}}</button>
@@ -207,8 +208,67 @@
         </div>
         <!-- Resend transfer OTP form modal -->
 
+        <!-- Transfer detailp form modal --> 
+        <div id="modal_transferdetail" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{i18n $.Lang "ButtonTransferDetails"}}</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <div class="card-body">                            
+                        
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">{{i18n $.Lang "LocaleName"}}: </span> <span id="detail_recipient_name"></span> 
+                                </div>
+
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">{{i18n $.Lang "LocaleDescription"}}: </span> <span id="detail_recipient_description"></span> 
+                                </div>
+
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">{{i18n $.Lang "LocaleRecipientCode"}}: </span> <span id="detail_recipient_code"></span> 
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">{{i18n $.Lang "LocaleSource"}}: </span> <span id="detail_transfer_source"></span> 
+                                </div>
+
+                                <div class="col-md-4">
+                                   <span class="font-weight-bold">{{i18n $.Lang "LocaleAmount"}}: </span> (<span id="detail_transfer_currency"></span>) <span id="detail_transfer_amount"></span> 
+                                </div>
+
+                                <div class="col-md-4">
+                                   <span class="font-weight-bold">{{i18n $.Lang "LocaleTransferCode"}}: </span> <span id="detail_transfer_code"></span> 
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <span class="font-weight-bold">{{i18n $.Lang "LocaleReason"}}: </span> <span id="detail_transfer_reason"></span> 
+                                </div>
+
+                                <div class="col-md-4">
+                                   <span class="font-weight-bold">{{i18n $.Lang "LocaleReference"}}: </span> <span id="detail_transfer_reference"></span> 
+                                </div>
+
+                                <div class="col-md-4">
+                                   <span class="font-weight-bold">{{i18n $.Lang "LocaleDate"}}: </span> <span id="detail_transfer_date"></span> 
+                                </div>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Transfer detailp form modal -->
+
         <script>
-        var reciList;
+            var reciList;
             $(function () {
                 fetchSourceList();
                 fecthBeneficiariesList();
@@ -323,6 +383,14 @@
                     makeResendOTPHttpPost('transfer/resend_otp', data)
             };
 
+            function FetchTransferDetail(e){
+                console.log(e)
+                var data = {
+                    transfer_code: e,
+                };
+                makeFetchTransferPHttpPost("transfer/fetch_transfer", data)
+            }
+
             function showSuccessPrompt(){
                 swalInit({
                     title: {{i18n $.Lang "LocaleSuccessTitle"}},
@@ -354,6 +422,8 @@
             }
 
             function showOTPPrompt(e) {
+                $('#modal_resendotp').modal('hide');
+
                 console.log("transfer_code: " + e)
                 swalInit({
                     title: {{i18n $.Lang "LocaleOtpTitle"}},
@@ -396,6 +466,21 @@
                     }
                 });
             }
+            
+            function showFullDetailPrompt(e) {
+                console.log(e)
+                $("#detail_recipient_name").text(e.recipient.name)
+                $("#detail_recipient_code").text(e.recipient.recipient_code)
+                $("#detail_recipient_description").text(e.recipient.description)
+                $("#detail_transfer_source").text(e.source)
+                $("#detail_transfer_currency").text(e.currency)
+                $("#detail_transfer_amount").text(e.amount)
+                $("#detail_transfer_code").text(e.transfer_code)
+                $("#detail_transfer_reason").text(e.reason)
+                $("#detail_transfer_reference").text(e.reference)
+                $("#detail_transfer_date").text(e.createdAt)
+                $('#modal_transferdetail').modal('show');
+            };
 
             function showDisableOTPPrompt(){
                 swalInit({
@@ -438,6 +523,33 @@
                         }
                     });
             };
+var fetchres;
+            function makeFetchTransferPHttpPost(url, data) {  
+                $.ajax({
+                type: "POST",
+                url: baseUrl + url,
+                processData: false,
+                data: JSON.stringify(data),
+                beforeSend: function(request) {
+                    request.setRequestHeader("Content-Type", "application/json");
+                },
+                success: function(res) {
+                    $(light_4).unblock();
+                    fetchres = res
+                    if(res.Status == true){
+                        showFullDetailPrompt(res.Data)
+                    }
+                },
+                error: function(res) {
+                    $(light_4).unblock();
+                    swalInit({
+                        title: {{i18n $.Lang "LocaleErrorTitle"}},
+                        text: res.responseJSON.Message,
+                        type: "error"
+                    });
+                }
+                });
+            }
 
             function makeDisableOTPHttpPost(url, data) {  
                 $.ajax({
