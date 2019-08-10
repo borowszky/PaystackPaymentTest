@@ -478,7 +478,7 @@
                 $("#detail_transfer_code").text(e.transfer_code)
                 $("#detail_transfer_reason").text(e.reason)
                 $("#detail_transfer_reference").text(e.reference)
-                $("#detail_transfer_date").text(e.createdAt)
+                $("#detail_transfer_date").text({{ExtractReadableDateTime e.createdAt}})
                 $('#modal_transferdetail').modal('show');
             };
 
