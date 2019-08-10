@@ -349,7 +349,7 @@
                     description:$("#edit_recipient_description").val(),
                 };
                 console.log(data)
-                makeHttpPost('recipient/update_recipient', data, '', {{i18n $.Lang "LocaleSuccessTitle"}}, {{i18n $.Lang "LocaleUpdateRecipientSuccessMessage"}}, {{i18n $.Lang "LocaleErrorTitle"}}, {{i18n $.Lang "LocaleUpdateRecipientErrorMessage"}})
+                makeHttpPost('recipient/update_recipient', data, {{i18n $.Lang "LocaleSuccessTitle"}}, {{i18n $.Lang "LocaleUpdateRecipientSuccessMessage"}}, {{i18n $.Lang "LocaleErrorTitle"}}, {{i18n $.Lang "LocaleUpdateRecipientErrorMessage"}})
             };
 
             function showDeletePromt(e) {
